@@ -1,0 +1,78 @@
+﻿@using Bankomat.Models;
+@{
+    ViewBag.Title = "Bankomat";
+    ViewBag.Message = "Welcome to Bank JYSK";
+}
+
+<h2 style="text-align: center">@ViewBag.Message</h2>
+
+<table class="table" style="margin-left:auto;margin-right:auto;">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            Balance
+        </th>
+        <th></th>
+    </tr>
+
+    <tr>
+        <td>
+            @ViewBag.UserAccounts.Name
+        </td>
+        <td>
+            @ViewBag.UserAccounts.Surname
+        </td>
+        <td>
+            @ViewBag.UserAccounts.Balance zl
+        </td>
+    </tr>
+</table>
+
+
+<h3 style="text-align: center">Available banknotes</h3>
+
+<div style="text-align: center">
+    @foreach (BanknoteDetail banknote in ViewBag.Banknotes)
+    {
+        <label>@banknote.Banknote@banknote.Name</label>
+    }
+    <h3>Enter amout of money you would like to withdraw</h3>
+    @using (Html.BeginForm())
+    {
+        <input type="number" name="withdraw" min=10 max="10000" />
+        <input type="submit" value="Withdraw" />
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <label style="color: red">@ViewBag.Error</label>
+    }
+
+    @try
+    {
+        if (ViewBag.BanknoteStates != null)
+        {
+            <h3>Please take the money</h3>
+            foreach (KeyValuePair<int, int> kvp in ViewBag.BanknoteStates)
+            {
+
+                <label>@kvp.Value*@kvp.Key zl</label>
+            }
+
+        }
+    }
+    catch (Exception)
+    {
+    }
+
+
+</div>
+
+
+
+
+
